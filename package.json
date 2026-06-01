@@ -1,96 +1,96 @@
 {
-	"main": "electron/main.cjs",
-	"name": "app",
-	"version": "1.0.0",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"predev": "biome check . --write",
-		"dev": "vite dev --host",
-		"start": "vite preview --host --open",
-		"build": "vite build",
-		"electron": "npx electron .",
-		"electron-dev": "concurrently \"vite\" \"wait-on http://localhost:3000 && VITE_DEV_SERVER_URL=http://localhost:3000 electron .\"",
-		"dist": "electron-builder",
-		"preview": "vite preview",
-		"test": "vitest run",
-		"check": "biome check .",
-		"check:fix": "biome check . --write"
-	},
-	"dependencies": {
-		"@nut-tree-fork/nut-js": "^4.2.6",
-		"@tanstack/react-router": "^1.169.2",
-		"@tanstack/react-router-ssr-query": "^1.166.12",
-		"@tanstack/react-start": "^1.167.61",
-		"@tanstack/router-plugin": "^1.167.32",
-		"lucide-react": "^0.561.0",
-		"nitro": "^3.0.260429-beta",
-		"nitro-nightly": "^3.0.1-20260501-164602-aee73f19",
-		"qrcode": "^1.5.4",
-		"react": "^19.2.5",
-		"react-dom": "^19.2.5",
-		"react-icons": "^5.5.0",
-		"winston": "^3.19.0",
-		"ws": "^8.18.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.4.14",
-		"@tailwindcss/postcss": "^4.1.18",
-		"@tailwindcss/typography": "^0.5.19",
-		"@tanstack/devtools-vite": "^0.6.0",
-		"@tanstack/react-devtools": "^0.10.2",
-		"@tanstack/react-router-devtools": "^1.132.0",
-		"@testing-library/dom": "^10.4.0",
-		"@testing-library/react": "^16.2.0",
-		"@types/node": "^22.10.2",
-		"@types/qrcode": "^1.5.5",
-		"@types/react": "^19.2.0",
-		"@types/react-dom": "^19.2.0",
-		"@types/ws": "^8.5.14",
-		"@vitejs/plugin-react": "^5.2.0",
-		"autoprefixer": "^10.4.23",
-		"concurrently": "^9.2.1",
-		"daisyui": "^5.5.14",
-		"electron": "^40.6.1",
-		"electron-builder": "^26.8.1",
-		"jsdom": "^27.0.0",
-		"postcss": "^8.5.6",
-		"tailwindcss": "^4.2.4",
-		"tsx": "^4.19.0",
-		"typescript": "^5.7.2",
-		"vite": "^8.0.10",
-		"vite-tsconfig-paths": "^6.0.2",
-		"vitest": "^3.0.5",
-		"wait-on": "^9.0.4"
-	},
-	"build": {
-		"appId": "com.rein.app",
-		"productName": "Rein",
-		"asar": true,
-		"asarUnpack": [
-			".output/**/*",
-			"node_modules/@nut-tree-fork/**/*"
-		],
-		"extraResources": [
-			{
-				"from": ".output",
-				"to": ".output"
-			}
-		],
-		"files": [
-			".output/**/*",
-			"electron/**/*",
-			"package.json"
-		],
-		"npmRebuild": true,
-		"linux": {
-			"target": "AppImage"
-		},
-		"win": {
-			"target": "portable"
-		},
-		"mac": {
-			"target": "dmg"
-		}
-	}
+  "main": "electron/main.cjs",
+  "name": "app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "biome check . --write",
+    "dev": "node init && vite dev --host",
+    "start": "node init && vite preview --host --open",
+    "build": "node init && vite build",
+    "electron": "npx electron .",
+    "electron-dev": "concurrently \"vite\" \"wait-on http://localhost:3000 && VITE_DEV_SERVER_URL=http://localhost:3000 electron .\"",
+    "dist": "electron-builder",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "check": "biome check .",
+    "check:fix": "biome check . --write"
+  },
+  "dependencies": {
+    "@nut-tree-fork/nut-js": "^4.2.6",
+    "@tanstack/react-router": "^1.169.2",
+    "@tanstack/react-router-ssr-query": "^1.166.12",
+    "@tanstack/react-start": "^1.167.61",
+    "@tanstack/router-plugin": "^1.167.32",
+    "lucide-react": "^0.561.0",
+    "nitro": "^3.0.260429-beta",
+    "nitro-nightly": "^3.0.1-20260501-164602-aee73f19",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-icons": "^5.5.0",
+    "winston": "^3.19.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.14",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tanstack/devtools-vite": "^0.6.0",
+    "@tanstack/react-devtools": "^0.10.2",
+    "@tanstack/react-router-devtools": "^1.132.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/ws": "^8.5.14",
+    "@vitejs/plugin-react": "^5.2.0",
+    "autoprefixer": "^10.4.23",
+    "concurrently": "^9.2.1",
+    "daisyui": "^5.5.14",
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1",
+    "jsdom": "^27.0.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.2.4",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.2",
+    "vite": "^8.0.10",
+    "vite-tsconfig-paths": "^6.0.2",
+    "vitest": "^3.0.5",
+    "wait-on": "^9.0.4"
+  },
+  "build": {
+    "appId": "com.rein.app",
+    "productName": "Rein",
+    "asar": true,
+    "asarUnpack": [
+      ".output/**/*",
+      "node_modules/@nut-tree-fork/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": ".output",
+        "to": ".output"
+      }
+    ],
+    "files": [
+      ".output/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "npmRebuild": true,
+    "linux": {
+      "target": "AppImage"
+    },
+    "win": {
+      "target": "portable"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  }
 }
