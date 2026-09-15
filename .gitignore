@@ -4,7 +4,6 @@ dist
 dist-ssr
 *.local
 count.txt
-.env
 .nitro
 .tanstack
 .wrangler
@@ -13,4 +12,5 @@ count.txt
 todos.json
 tokens.json
 SPEC.md
-bin/
+bin/gstreamer
+config.bat
