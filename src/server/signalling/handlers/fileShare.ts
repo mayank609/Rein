@@ -125,7 +125,11 @@ function parseMultipart(
 				const headerEnd = bodyStr.indexOf("\r\n\r\n", headerStart)
 				if (headerEnd === -1) throw new Error("Malformed multipart headers")
 
-				const headerBlock = bodyStr.slice(headerStart, headerEnd)
+				// bodyStr is latin1 so its indices match byte offsets, but browsers send
+				// the filename as raw UTF-8, so decode the header bytes as UTF-8.
+				const headerBlock = body
+					.subarray(headerStart, headerEnd)
+					.toString("utf8")
 
 				// Extract filename from Content-Disposition
 				const nameMatch = headerBlock.match(/filename="([^"]+)"/)
