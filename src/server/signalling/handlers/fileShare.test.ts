@@ -53,4 +53,25 @@ describe("handleFileUpload", () => {
 			expect(fs.readFileSync(path.join(uploadDir, name), "utf8")).toBe("hello")
 		},
 	)
+
+	it("does not overwrite an existing file with the same name", async () => {
+		const first = await upload("image.jpg", "first")
+		const second = await upload("image.jpg", "second")
+
+		expect(path.basename(first.path)).toBe("image.jpg")
+		expect(path.basename(second.path)).toBe("image (1).jpg")
+		expect(fs.readFileSync(first.path, "utf8")).toBe("first")
+		expect(fs.readFileSync(second.path, "utf8")).toBe("second")
+	})
+
+	it("keeps every file when same-name uploads arrive at once", async () => {
+		const results = await Promise.all(
+			["a", "b", "c"].map((content) => upload("clip.mp4", content)),
+		)
+
+		const names = results.map((r) => path.basename(r.path)).sort()
+		expect(names).toEqual(["clip (1).mp4", "clip (2).mp4", "clip.mp4"])
+		const contents = results.map((r) => fs.readFileSync(r.path, "utf8")).sort()
+		expect(contents).toEqual(["a", "b", "c"])
+	})
 })

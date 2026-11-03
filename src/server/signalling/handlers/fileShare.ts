@@ -157,6 +157,34 @@ function parseMultipart(
 	})
 }
 
+const MAX_NAME_SUFFIX = 1000
+
+/**
+ * Write data into dir without replacing an existing file. If `name` is taken,
+ * try "name (1).ext", "name (2).ext", ... Returns the path that was written.
+ */
+async function writeUniqueFile(
+	dir: string,
+	name: string,
+	data: Buffer,
+): Promise<string> {
+	const ext = path.extname(name)
+	const stem = name.slice(0, name.length - ext.length)
+	for (let i = 0; i <= MAX_NAME_SUFFIX; i++) {
+		const candidate = i === 0 ? name : `${stem} (${i})${ext}`
+		const filePath = path.join(dir, candidate)
+		try {
+			// "wx" fails with EEXIST instead of overwriting, so two uploads with the
+			// same name at the same time can't both claim it
+			await fs.promises.writeFile(filePath, data, { flag: "wx" })
+			return filePath
+		} catch (err) {
+			if ((err as NodeJS.ErrnoException).code !== "EEXIST") throw err
+		}
+	}
+	throw new Error(`Too many files named ${name} in ${dir}`)
+}
+
 // ---------------------------------------------------------------------------
 // Public route handlers
 // ---------------------------------------------------------------------------
@@ -181,15 +209,14 @@ export async function handleFileUpload(
 			return
 		}
 
-		const filePath = path.join(uploadDir, safeName)
-
-		// Save uploaded file to host disk asynchronously
-		await fs.promises.writeFile(filePath, data)
+		// Save uploaded file to host disk without overwriting an existing one
+		const filePath = await writeUniqueFile(uploadDir, safeName, data)
+		const savedName = path.basename(filePath)
 
 		const id = randomUUID()
 		const file: SharedFile = {
 			id,
-			name: safeName,
+			name: savedName,
 			mimeType,
 			size: data.length,
 			uploadedAt: Date.now(),
@@ -205,7 +232,7 @@ export async function handleFileUpload(
 		broadcastFileEvent({
 			type: "incoming-file",
 			fileId: id,
-			name: safeName,
+			name: savedName,
 			size: data.length,
 			mimeType,
 			uploadedAt: file.uploadedAt,
