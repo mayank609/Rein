@@ -14,3 +14,4 @@ tokens.json
 SPEC.md
 bin/gstreamer
 config.bat
+.env
