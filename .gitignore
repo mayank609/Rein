@@ -13,3 +13,4 @@ todos.json
 tokens.json
 SPEC.md
 config.bat
+.env
